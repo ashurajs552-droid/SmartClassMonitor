@@ -249,7 +249,7 @@ const EnrollStudent = ({ onClose }) => {
                 </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <div className="enrollment-form">
                 <div style={{ display: 'grid', gap: '1rem', marginBottom: '1.5rem' }}>
                     <div className="input-group">
                         <label>Full Name</label>
@@ -300,13 +300,21 @@ const EnrollStudent = ({ onClose }) => {
                 </div>
 
                 <button
-                    type="submit"
+                    type="button"
+                    onClick={(e) => {
+                        console.log("Enroll button clicked - forcing submit");
+                        handleSubmit(e);
+                    }}
                     className="btn btn-success"
                     style={{
                         width: '100%',
                         padding: '1rem',
                         fontSize: '1.1rem',
-                        opacity: loading ? 0.7 : 1
+                        opacity: loading ? 0.7 : 1,
+                        cursor: loading ? 'not-allowed' : 'pointer',
+                        position: 'relative',
+                        zIndex: 9999, // Force on top
+                        marginTop: '1rem'
                     }}
                     disabled={loading}
                 >
@@ -315,10 +323,32 @@ const EnrollStudent = ({ onClose }) => {
                             <Loader size={20} className="animate-pulse" /> Enrolling...
                         </span>
                     ) : (
-                        'Enroll Student'
+                        'Enroll Student Now'
                     )}
                 </button>
-            </form>
+
+                {/* Fallback Debug Button */}
+                <button
+                    type="button"
+                    onClick={(e) => {
+                        alert("Debug button clicked");
+                        handleSubmit(e);
+                    }}
+                    style={{
+                        marginTop: '10px',
+                        padding: '10px',
+                        background: '#333',
+                        color: 'white',
+                        width: '100%',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        position: 'relative',
+                        zIndex: 9999
+                    }}
+                >
+                    Debug: Force Submit
+                </button>
+            </div>
         </div>
     );
 };
